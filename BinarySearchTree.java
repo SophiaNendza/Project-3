@@ -20,13 +20,20 @@ public class BinarySearchTree<T extends Comparable<T>> {
             node.left = insert(node.left, key);
         } else if (cmp > 0) {
             node.right = insert(node.right, key);
+        } else {
+            System.out.println("The item already exists in the tree.");
         }
 
         return node;
     }
 
     public void delete(T key) {
-        root = delete(root, key);
+        if (!search(key)) {
+            System.out.println("The number is not present in the tree");
+        } else {
+            root = delete(root, key);
+            this.inOrder();
+        }
     }
 
     private NodeType<T> delete(NodeType<T> node, T key) {
