@@ -1,58 +1,213 @@
 public class BinarySearchTree<T extends Comparable<T>> {
     private NodeType<T> root;
 
-    // Initialize tree
     public BinarySearchTree() {
+        root = null;
+    }
 
-    } // BinarySearchTree
-
-    //pre condition: tree is initialized
-    // insert node with value of key into the tree. check for dupes
     public void insert(T key) {
+        root = insert(root, key);
+    }
 
-    } // insert
+    private NodeType<T> insert(NodeType<T> node, T key) {
+        if (node == null) {
+            return new NodeType<T>(key);
+        }
 
-    //pre condition: tree is initialized
-    //
-    // post condition: remove node with key value equal to parameter.
-    // if not present leave tree unchanged
-    // replace deleted node
+        int cmp = key.compareTo(node.info);
+
+        if (cmp < 0) {
+            node.left = insert(node.left, key);
+        } else if (cmp > 0) {
+            node.right = insert(node.right, key);
+        }
+
+        return node;
+    }
+
     public void delete(T key) {
+        root = delete(root, key);
+    }
 
-    } // delete
+    private NodeType<T> delete(NodeType<T> node, T key) {
+        if (node == null) {
+            return null;
+        }
 
-    //pre condtion: tree,  item, and found are all initialized
-    //
-    // post condition: item should refer to a key of a Node n in the tree
-    // where the value of n.key is equal to the value of item. return true if n exists.
+        int cmp = key.compareTo(node.info);
+
+        if (cmp < 0) {
+            node.left = delete(node.left, key);
+        } else if (cmp > 0) {
+            node.right = delete(node.right, key);
+        } else {
+            if (node.left == null && node.right == null) {
+                return null;
+            } else if (node.left == null) {
+                return node.right;
+            } else if (node.right == null) {
+                return node.left;
+            } else {
+                NodeType<T> successor = findMin(node.right);
+                node.info = successor.info;
+                node.right = delete(node.right, successor.info);
+            }
+        }
+
+        return node;
+    }
+
+    private NodeType<T> findMin(NodeType<T> node) {
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
+    }
+
     public boolean search(T item) {
+        return search(root, item);
+    }
 
-    } // search
+    private boolean search(NodeType<T> node, T item) {
+        if (node == null) {
+            return false;
+        }
 
-    //pre condition: tree has been initialized
-    //
-    // post condition: print out the tree in in-order.
-    // "The function prototype does not include a parameter, so you can implement
-    //  this by using as auxiliary function or using a getRoot function etc" - whatever this means
+        int cmp = item.compareTo(node.info);
+
+        if (cmp == 0) {
+            return true;
+        } else if (cmp < 0) {
+            return search(node.left, item);
+        } else {
+            return search(node.right, item);
+        }
+    }
+
     public void inOrder() {
+        System.out.print("In-order: ");
+        inOrder(root);
+        System.out.println();
+    }
 
-    } // inOrder
+    private void inOrder(NodeType<T> node) {
+        if (node != null) {
+            inOrder(node.left);
+            System.out.print(node.info + " ");
+            inOrder(node.right);
+        }
+    }
 
-
-    //we can implement the rest of the methods however we want
-
-    // prints nodes that have one child
     public void getSingleParent() {
+        System.out.print("Single Parents: ");
+        boolean[] found = {false};
+        getSingleParent(root, found);
 
-    } // getSingleParent
+        if (!found[0]) {
+            System.out.println();
+            System.out.println("None");
+        } else {
+            System.out.println();
+        }
+    }
 
-    //count the number of leaf nodes and output the count
+    private void getSingleParent(NodeType<T> node, boolean[] found) {
+        if (node != null) {
+            if ((node.left == null && node.right != null) ||
+                (node.left != null && node.right == null)) {
+                System.out.print(node.info + " ");
+                found[0] = true;
+            }
+
+            getSingleParent(node.left, found);
+            getSingleParent(node.right, found);
+        }
+    }
+
     public void getNumLeafNodes() {
+        int count = countLeafNodes(root);
+        System.out.println("The number of leaf nodes are " + count);
+    }
 
-    } // getNumLeafNodes
+    private int countLeafNodes(NodeType<T> node) {
+        if (node == null) {
+            return 0;
+        }
 
-    // takes in a node as input and prints the cousins of the given node.
-    public void getCousins(NodeType node) {
+        if (node.left == null && node.right == null) {
+            return 1;
+        }
 
-    } // getCousins
-} // BinarySearchTree
+        return countLeafNodes(node.left) + countLeafNodes(node.right);
+    }
+
+    public void getCousins(T item) {
+        NodeType<T> target = findNode(root, item);
+
+        System.out.print(item + " cousins: ");
+
+        if (target == null || root == null || root == target) {
+            System.out.println();
+            return;
+        }
+
+        int level = getLevel(root, target, 1);
+        printCousins(root, target, level);
+        System.out.println();
+    }
+
+    private NodeType<T> findNode(NodeType<T> node, T item) {
+        if (node == null) {
+            return null;
+        }
+
+        int cmp = item.compareTo(node.info);
+
+        if (cmp == 0) {
+            return node;
+        } else if (cmp < 0) {
+            return findNode(node.left, item);
+        } else {
+            return findNode(node.right, item);
+        }
+    }
+
+    private int getLevel(NodeType<T> node, NodeType<T> target, int level) {
+        if (node == null) {
+            return 0;
+        }
+
+        if (node == target) {
+            return level;
+        }
+
+        int leftLevel = getLevel(node.left, target, level + 1);
+        if (leftLevel != 0) {
+            return leftLevel;
+        }
+
+        return getLevel(node.right, target, level + 1);
+    }
+
+    private void printCousins(NodeType<T> node, NodeType<T> target, int level) {
+        if (node == null || level < 2) {
+            return;
+        }
+
+        if (level == 2) {
+            if (node.left == target || node.right == target) {
+                return;
+            }
+
+            if (node.left != null) {
+                System.out.print(node.left.info + " ");
+            }
+            if (node.right != null) {
+                System.out.print(node.right.info + " ");
+            }
+        } else {
+            printCousins(node.left, target, level - 1);
+            printCousins(node.right, target, level - 1);
+        }
+    }
+}
