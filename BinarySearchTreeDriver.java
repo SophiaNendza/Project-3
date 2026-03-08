@@ -97,8 +97,8 @@ public class BinarySearchTreeDriver {
                     fileScan.close();
                 } else if (type.equalsIgnoreCase("d")) {
                     BinarySearchTree<Double> list = new BinarySearchTree<>();
-                    while (fileScan.hasNextFloat()) {
-                        double item = fileScan.nextFloat();
+                    while (fileScan.hasNextDouble()) {
+                        double item = fileScan.nextDouble();
                         list.insert(item);
                     } // while
 
@@ -115,7 +115,7 @@ public class BinarySearchTreeDriver {
 
                             list.inOrder();
                             System.out.print("Enter a number to insert: ");
-                            double insert = scan.nextFloat();
+                            double insert = scan.nextDouble();
                             list.insert(insert);
                             list.inOrder();
 
@@ -123,7 +123,7 @@ public class BinarySearchTreeDriver {
 
                             list.inOrder();
                             System.out.print("Enter a number to delete: ");
-                            double delete = scan.nextFloat();
+                            double delete = scan.nextDouble();
                             list.delete(delete);
 
                         } else if (answer.equalsIgnoreCase("p")) {
@@ -138,7 +138,7 @@ public class BinarySearchTreeDriver {
 
                             list.inOrder();
                             System.out.print("Enter a number to search: ");
-                            double search = scan.nextFloat();
+                            double search = scan.nextDouble();
                             if (list.search(search)) {
                                 System.out.println("Item is present in the tree");
                             } else {
@@ -153,7 +153,7 @@ public class BinarySearchTreeDriver {
 
                             list.inOrder();
                             System.out.print("Enter a number: ");
-                            double cousin = scan.nextFloat();
+                            double cousin = scan.nextDouble();
                             list.getCousins(cousin);
 
                         } else if (answer.equalsIgnoreCase("q")) {

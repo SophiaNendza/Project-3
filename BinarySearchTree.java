@@ -29,7 +29,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
 
     public void delete(T key) {
         if (!search(key)) {
-            System.out.println("The number is not present in the tree");
+            System.out.println("Item is not present in the tree");
         } else {
             root = delete(root, key);
             this.inOrder();
@@ -100,7 +100,11 @@ public class BinarySearchTree<T extends Comparable<T>> {
     private void inOrder(NodeType<T> node) {
         if (node != null) {
             inOrder(node.left);
-            System.out.print(node.info + " ");
+            if (node.info instanceof Double) {
+                System.out.print(String.format("%.1f ", (Double)node.info));
+            } else {
+                System.out.print(node.info + " ");
+            }
             inOrder(node.right);
         }
     }

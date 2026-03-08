@@ -3,27 +3,29 @@ Programming Assignment 3: Binary Search Tree
 
 Student Information:
 ---------------------
-Name: Kasey Lane
-Email: kal04342@uga.edu
+Name: Kasey Lane, Sophia Nendza
+Email: kal04342@uga.edu, sen64739@uga.edu
 
 2. How to Compile and Run Program
 
 Project folder structure:
-src/
-  cs2720/p3/NodeType.java
-  cs2720/p3/BinarySearchTree.java
-  cs2720/p3/BinarySearchTreeDriver.java
+Nendza_Lane_project3
+  NodeType.java
+  BinarySearchTree.java
+  BinarySearchTreeDriver.java
 
 Compile:
-    javac src/cs2720/p3/*.java
+    javac NodeType.java
+    javac BinarySearchTree.java
+    javac BinarySearchTreeDriver.java
 
 Run:
-    java -cp src cs2720.p3.BinarySearchTreeDriver <inputfile>
+    java BinarySearchTreeDriver <inputfile>
 
 Examples:
-    java -cp src cs2720.p3.BinarySearchTreeDriver int-input.txt
-    java -cp src cs2720.p3.BinarySearchTreeDriver double-input.txt
-    java -cp src cs2720.p3.BinarySearchTreeDriver string-input.txt
+    java BinarySearchTreeDriver int-input.txt
+    java BinarySearchTreeDriver double-input.txt
+    java BinarySearchTreeDriver string-input.txt
 
 When the program starts it will ask the following:
     Enter list type (i - int, d - double, s - String):
@@ -47,13 +49,11 @@ The program builds a binary search tree (BST) that stores either int, double, or
 The BST supports:
 - Insert (i)
 - Delete (d)
-- Print Tree (p)      
+- Print Tree (p)
 - Retrieve/Search (r)
 - Count Leaf Nodes (l)
 - Find Single Parents (s)
 - Find Cousins (c)
-- Is Proper (o)
-- Is Complete (m)
 - Quit (q)
 
 Error handling:
@@ -68,8 +68,8 @@ Time complexity:
 - Finding the node and its ancestors is basically a BST search.
 - Worst case height h, which in an unbalanced BST can be O(n).
 - Printing cousins is O(1) after we know aunt/uncle.
-Overall complexity: O(n). In the worst case for an unbalanced BST, O(n).  
-Recurrence form (worst case path down one side): T(n) = T(n-1) + O(1) ⇒ T(n) = O(n).  
+Overall complexity: O(n). In the worst case for an unbalanced BST, O(n).
+Recurrence form (worst case path down one side): T(n) = T(n-1) + O(1) ⇒ T(n) = O(n).
 If the tree were balanced, h = O(log n), so O(log n).
 
 5. Complexity Summary (Big-O)
@@ -80,5 +80,3 @@ If the tree were balanced, h = O(log n), so O(log n).
 - getNumLeafNodes: Θ(n)
 - getSingleParent: Θ(n)
 - getCousins(x): O(n) (worst O(n))
-- isProper:    Θ(n) (check every node)
-- isComplete:  Θ(n) (level-order traversal once)
